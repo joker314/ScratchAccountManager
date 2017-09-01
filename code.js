@@ -3,7 +3,7 @@ chrome.storage.sync.get(null, users => {
 	if(dropdown) {
 		// User is logged in.
 		
-		const username = dropdown.firstChild.firstChild.href.replace(/https:\/\/scratch.mit.edu\/users\/([a-zA-Z0-9]+)\//, "$1");
+		const username = dropdown.firstChild.firstChild.href.replace(/.+\/([a-zA-Z0-9_-]+)\/$/, "$1");
 		const icon = document.querySelector(".user-icon, .user-info > img").src;
 		
 		const markAsAlt = document.createElement("LI");
@@ -22,9 +22,9 @@ chrome.storage.sync.get(null, users => {
 			} else {
 				markAsAlt.firstChild.textContent = "Unmark as alt";
 				
-				chrome.runtime.sendMessage("GET COOKIES", (sid, csrf) => {
+				chrome.runtime.sendMessage({getCookies: true}, function(sid) {
 						let entry = {};
-						entry[username] = {icon, sid, csrf};
+						entry[username] = {icon, sid};
 						
 						chrome.storage.sync.set(entry);
 						
@@ -50,6 +50,12 @@ chrome.storage.sync.get(null, users => {
 			
 			altAccount.appendChild(altIcon);
 			altAccount.appendChild(altUsername);
+			
+			altAccount.addEventListener("click", function(e) {
+				chrome.runtime.sendMessage({setCookies: true, sid: users[user].sid}, function() {
+					location.reload();
+				});
+			});
 		});
 		
 		dropdown.appendChild(markAsAlt);
