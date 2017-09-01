@@ -1,0 +1,11 @@
+.msg-count {
+    background-color: violet;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    font-size: 10px;
+    position: absolute;
+    right: 65px;
+}

@@ -5,6 +5,7 @@ chrome.storage.sync.get(null, users => {
 		
 		const username = dropdown.firstChild.firstChild.href.replace(/.+\/([a-zA-Z0-9_-]+)\/$/, "$1");
 		const icon = document.querySelector(".user-icon, .user-info > img").src;
+		const truncated = document.querySelector(".user-icon, .user-info > img").nextSibling.textContent;
 		
 		const markAsAlt = document.createElement("LI");
 		
@@ -24,7 +25,7 @@ chrome.storage.sync.get(null, users => {
 				
 				chrome.runtime.sendMessage({getCookies: true}, function(sid) {
 						let entry = {};
-						entry[username] = {icon, sid};
+						entry[username] = {icon, sid, truncated};
 						
 						chrome.storage.sync.set(entry);
 						
