@@ -25,7 +25,7 @@ chrome.storage.sync.get(null, users => {
 				
 				chrome.runtime.sendMessage({getCookies: true}, function(sid) {
 						let entry = {};
-						entry[username] = {icon, sid, truncated};
+						entry[username] = {icon, sid, truncated, count: 0};
 						
 						chrome.storage.sync.set(entry);
 						
@@ -44,21 +44,42 @@ chrome.storage.sync.get(null, users => {
 			dropdown.appendChild(outer);
 			
 			const altIcon = document.createElement("IMG");
-			const altUsername = document.createTextNode(user);
+			const altUsername = document.createTextNode(users[user].truncated); // Use truncated username
+			const altMessages = document.createElement("SPAN"); // Message count
+			
+			altMessages.className = "msg-count";
+			altMessages.id = "alt-account-user-" + user;
+			
+			if(users[user].count) {
+				altMessages.textContent = users[user].count;
+				altMessages.className = "msg-count visible";
+			} else {
+				altMessages.className = "msg-count";
+			}
 			
 			altIcon.src = users[user].icon;
 			altIcon.className = "avatar user-icon";
 			
 			altAccount.appendChild(altIcon);
 			altAccount.appendChild(altUsername);
+			altAccount.appendChild(altMessages);
 			
 			altAccount.addEventListener("click", function(e) {
 				chrome.runtime.sendMessage({setCookies: true, sid: users[user].sid}, function() {
-					location.reload();
+					if(e.path[0] === altMessages && location.pathname !== "/messages/") {
+						location.href = "https://scratch.mit.edu/messages/";
+					} else {
+						location.reload();
+					}
 				});
 			});
 		});
 		
 		dropdown.appendChild(markAsAlt);
+		
+		chrome.runtime.onMessage.addListener(function(req) {		
+			document.querySelector("#alt-account-user-" + req.name).textContent = req.count;
+			document.querySelector("#alt-account-user-" + req.name).className = req.count ? "msg-count visible" : "msg-count";
+		});
 	}
 });
