@@ -14,7 +14,7 @@ let index = 0; // Index of the alt account
 function updateMessageCounts() {
 	chrome.storage.sync.get(null, function(users) {
 		if(Object.keys(users).length === 0) {
-			setTimeout(updateMessageCounts, 10e3);
+			setTimeout(updateMessageCounts, 20e3);
 		} else {
 			let alt = Object.keys(users)[index];
 			let request = new XMLHttpRequest();
@@ -38,7 +38,7 @@ function updateMessageCounts() {
 						}
 					}
 					index = (index + 1) % Object.keys(users).length;
-					setTimeout(updateMessageCounts, 10e3);
+					setTimeout(updateMessageCounts, 20e3);
 				}
 			};
 			request.send();
