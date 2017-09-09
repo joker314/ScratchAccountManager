@@ -18,7 +18,7 @@ function updateMessageCounts() {
 		} else {
 			let alt = Object.keys(users)[index];
 			let request = new XMLHttpRequest();
-			request.open("GET", "https://api.scratch.mit.edu/proxy/users/" + alt + "/activity/count");
+			request.open("GET", "https://api.scratch.mit.edu/proxy/users/" + alt + "/activity/count?" + Math.random());
 			request.onreadystatechange = function() {
 				if(request.readyState === 4) {
 					if(request.status === 200) {
