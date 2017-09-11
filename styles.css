@@ -1,19 +1,39 @@
 .msg-count {
-    background-color: #ff00aa;
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 10px 0px 0px 10px;
     padding: 5px 6px;
-    float: right;
     height: 20px;
     line-height: 20px;
     text-align: center;
     font-family: monospace;
-	display: none;
+    display: none;
+    float: right;
+    right: 0;
+    position: absolute;
 }
-
 .msg-count:hover {
-	background-color: pink;
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }
-
 span.visible {
-	display: inline;
+    display: inline;
+}
+.dropdown>li a {
+    display: flex !important;
+}
+.avatar.user-icon {
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    margin-top: 3px;
+    margin-right: 5px;
+}
+ul.dropdown li:last-child {
+    padding-left: 10px;
+    cursor: pointer;
+}
+ul.dropdown li:last-child:hover {
+    background-color: rgba(0,0,0,.1);
+}
+ul.user-nav li:last-child {
+    padding-left: 10px;
 }
